@@ -143,6 +143,11 @@ button {
   display: inline-flex;
 }
 
+.roulette__button:hover {
+  animation-play-state: paused;
+  transform: translateY(-3px) scale(1.02);
+}
+
 .roulette__button--primary {
   background-image: url("../images/image copy 2.png");
   position: relative;
@@ -153,6 +158,20 @@ button {
 
   overflow: hidden;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+  animation: button-breathe 3.5s ease-in-out infinite;
+}
+
+@keyframes button-breathe {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.04);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .roulette__button--primary:hover {
