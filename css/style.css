@@ -21,15 +21,104 @@
 
 body {
   font-family: "Montserrat", sans-serif;
-  background: radial-gradient(
-    circle at top left,
-    #ffb347 0%,
-    #c45a1a 35%,
-    #0b0b0b 75%
-  );
+
   color: #ffffff;
   min-height: 100vh;
 }
+
+body {
+  position: relative;
+  min-height: 100vh;
+  margin: 0;
+
+  background: linear-gradient(
+    270deg,
+    #000000,
+    #03140a,
+    #063d1a,
+    #00cc33,
+    #063d1a,
+    #03140a,
+    #000000
+  );
+
+  background-size: 900% 900%;
+
+  animation: luxuryFlow 32s cubic-bezier(0.4, 0, 0.2, 1) infinite,
+    subtleTilt 60s ease-in-out infinite;
+
+  color: #f5f7f6;
+  z-index: 0;
+}
+
+/* Премиум "живое" движение */
+@keyframes luxuryFlow {
+  0% {
+    background-position: 48% 52%;
+    background-size: 850% 850%;
+  }
+
+  33% {
+    background-position: 52% 48%;
+    background-size: 900% 900%;
+  }
+
+  66% {
+    background-position: 50% 55%;
+    background-size: 870% 870%;
+  }
+
+  100% {
+    background-position: 48% 52%;
+    background-size: 850% 850%;
+  }
+}
+
+/* Еле заметный tilt для ощущения глубины */
+@keyframes subtleTilt {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(0.15deg);
+  }
+}
+
+/* Лёгкое затемнение для читаемости белого текста */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.38);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Тонкий шум — финальный премиум штрих */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Уважение к пользователям */
+@media (prefers-reduced-motion: reduce) {
+  body {
+    animation: none;
+  }
+}
+
+/* body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+} */
 
 a {
   text-decoration: none;
@@ -149,7 +238,7 @@ button {
 }
 
 .roulette__button--primary {
-  background-image: url("../images/image copy 2.png");
+  background-image: url("../images/super.png");
   position: relative;
 
   background-size: cover;
@@ -176,7 +265,7 @@ button {
 
 .roulette__button--primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(255, 150, 60, 0.35);
+  box-shadow: 0 8px 20px rgba(21, 188, 46, 0.35);
 }
 
 .roulette__button--secondary {
@@ -249,7 +338,7 @@ button {
 }
 
 .prize__link {
-  color: #ffb347;
+  color: #47ff47;
   font-weight: 600;
   text-decoration: underline;
 }
@@ -283,5 +372,15 @@ button {
 
   .prize__title {
     font-size: 26px;
+  }
+
+  .prize__step {
+    font-size: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body {
+    animation: none;
   }
 }
