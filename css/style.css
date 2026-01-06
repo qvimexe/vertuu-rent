@@ -211,9 +211,6 @@ button {
   margin-bottom: 20px;
 }
 
-/* =========================
-   Buttons
-========================= */
 .roulette__actions {
   display: flex;
   gap: 16px;
