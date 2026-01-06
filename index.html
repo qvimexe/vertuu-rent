@@ -4,18 +4,87 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>VETRUU RENT</title>
+    <title>VERTUU RENT • РУЛЕТКА УДАЧИ</title>
     <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" href="images/logo.jpg" type="image/jpeg" />
   </head>
   <body>
-
-    <header>
-      <div class="container">
-        <div class="header__inner">
-          <div class="header__logo">VERTUU RENT</div>
+    <header class="header">
+      <div class="header__container">
+        <div class="header__brand">
+          <img src="images/logo.jpg" alt="VERTUU RENT" class="header__logo" />
+          <span class="header__title">VERTUU RENT</span>
         </div>
       </div>
+    </header>
+
+    <main class="page">
+      <section class="roulette">
+        <div class="roulette__container">
+          <div class="roulette__card">
+            <h1 class="roulette__title">
+              <span class="roulette__icon">🎁</span>
+              Рулетка удачи
+            </h1>
+
+            <p class="roulette__description">
+              Чтобы крутить колесо, подпишись на наш Telegram-канал.
+            </p>
+
+            <div class="roulette__actions">
+              <a
+                href="https://t.me/vertuu_rent"
+                class="roulette__button roulette__button--primary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Подписаться в Telegram
+              </a>
+
+              <button
+                type="button"
+                class="roulette__button roulette__button--secondary"
+              >
+                Проверить подписку
+              </button>
+            </div>
+
+            <label class="roulette__checkbox">
+              <input type="checkbox" class="roulette__checkbox-input" />
+              <span class="roulette__checkbox-text"> Я подписался(лась) </span>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <section class="prize">
+        <div class="prize__container">
+          <div class="prize__card">
+            <h2 class="prize__title">Как получить приз</h2>
+
+            <ol class="prize__steps">
+              <li class="prize__step">
+                Подпишись на канал и проверь подписку.
+              </li>
+              <li class="prize__step">Крути колесо.</li>
+              <li class="prize__step">Сделай скриншот результата.</li>
+              <li class="prize__step">
+                Отправь скриншот в TG:
+                <a
+                  href="https://t.me/orenda_admin"
+                  class="prize__link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  @orenda_admin
+                </a>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </section>
+    </main>
 
     <script src="js/main.js"></script>
   </body>

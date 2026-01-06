@@ -1,0 +1,258 @@
+/* body {
+  font-family: "Inter", sans-serif;
+  color: #000;
+  font-size: 16px;
+  line-height: 140%;
+
+  background-color: #fff;
+}
+
+.container {
+  max-width: 1440px;
+  padding: 0 20px;
+  margin: 0 auto;
+}
+
+.header {
+  margin-bottom: 130px;
+} */
+
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Russo+One&display=swap");
+
+body {
+  font-family: "Montserrat", sans-serif;
+  background: radial-gradient(
+    circle at top left,
+    #ffb347 0%,
+    #c45a1a 35%,
+    #0b0b0b 75%
+  );
+  color: #ffffff;
+  min-height: 100vh;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+.roulette__container,
+.prize__container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.header__container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* =========================
+   Header
+========================= */
+.header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.header__brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header__logo {
+  border-radius: 10px;
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+}
+
+.header__title {
+  font-family: "Russo One", sans-serif;
+  font-size: 24px;
+  letter-spacing: 1px;
+}
+
+.roulette {
+  padding: 40px 0;
+}
+
+.roulette__card {
+  border-radius: 20px;
+  padding: 40px;
+
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.12),
+    rgba(255, 255, 255, 0.02)
+  );
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+}
+
+.roulette__title {
+  font-family: montserrat, sans-serif;
+  font-weight: bold;
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.roulette__icon {
+  font-size: 32px;
+}
+
+.roulette__description {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+/* =========================
+   Buttons
+========================= */
+.roulette__actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.roulette__button {
+  padding: 14px 26px;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.25s ease;
+  text-align: center;
+  align-items: center;
+  display: inline-flex;
+}
+
+.roulette__button--primary {
+  background-image: url("../images/image copy 2.png");
+  position: relative;
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.roulette__button--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255, 150, 60, 0.35);
+}
+
+.roulette__button--secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.roulette__button--secondary:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* =========================
+   Checkbox
+========================= */
+.roulette__checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+.roulette__checkbox-input {
+  width: 18px;
+  height: 18px;
+  accent-color: #ff9c3a;
+}
+
+/* =========================
+   Prize section
+========================= */
+.prize {
+  padding-bottom: 30px;
+}
+
+.prize__card {
+  border-radius: 20px;
+  padding: 40px;
+
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.12),
+    rgba(255, 255, 255, 0.02)
+  );
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+}
+
+.prize__title {
+  font-family: montserrat, sans-serif;
+  font-weight: bold;
+  font-size: 30px;
+  margin-bottom: 24px;
+}
+
+.prize__steps {
+  list-style: decimal;
+  padding-left: 20px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.prize__step {
+  margin-bottom: 12px;
+}
+
+.prize__link {
+  color: #ffb347;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.prize__link:hover {
+  text-decoration: underline;
+}
+
+/* =========================
+   Responsive
+========================= */
+@media (max-width: 768px) {
+  .roulette__card,
+  .prize__card {
+    padding: 24px;
+  }
+
+  .roulette__title {
+    font-size: 28px;
+  }
+
+  .prize__title {
+    font-size: 26px;
+  }
+}
