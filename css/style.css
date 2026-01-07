@@ -407,7 +407,7 @@ button {
 
   .give__card {
     flex-direction: column;
-    gap: 30px;
+    gap: 10px;
   }
 }
 

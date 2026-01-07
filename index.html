@@ -53,7 +53,7 @@
       }
 
       .deal-wheel-two {
-        --size: clamp(150px, 75vmin, 350px);
+        --size: clamp(150px, 75vmin, 330px);
         --lg-hs: 0 3%;
         --lg-stop: 50%;
         --lg: linear-gradient(
@@ -88,8 +88,7 @@
       }
 
       .deal-wheel-two .spinner {
-        /* или .spinner, если это основное колесо */
-        animation: slowSpin 40s linear infinite; /* 40s — скорость, меняй на 30s или 60s для медленнее/быстрее */
+        animation: slowSpin 40s linear infinite;
       }
 
       .spinner {
@@ -102,7 +101,6 @@
         border-radius: 50%;
         transform: rotate(calc(var(--rotate, 25) * 1deg));
 
-        /* === ЧЁРНАЯ ОБВОДКА — уменьшена до 5px === */
         border: 5px solid #000;
         box-shadow: 0 0 18px rgba(0, 0, 0, 0.9),
           inset 0 0 12px rgba(0, 0, 0, 0.7);
@@ -111,12 +109,11 @@
       }
 
       .spinner::before {
-        /* === ЦЕНТРАЛЬНЫЙ КРУГ — уменьшен === */
         content: "";
         position: absolute;
         top: 50%;
         left: 50%;
-        width: calc(var(--size) / 5.5); /* был /4, теперь меньше */
+        width: calc(var(--size) / 5.5);
         height: calc(var(--size) / 5.5);
         background: radial-gradient(circle, #ff8c00, #ff6b00, #e65100);
         border-radius: 50%;
@@ -135,8 +132,7 @@
         position: relative;
         display: flex;
         align-items: center;
-        /* === ТЕКСТ БЛИЖЕ К ЦЕНТРУ (отодвинут от края) === */
-        padding: 0 calc(var(--size) / 6) 0 calc(var(--size) / 10); /* был /20, теперь /10 */
+        padding: 0 calc(var(--size) / 6) 0 calc(var(--size) / 10);
         width: 50%;
         height: 50%;
         transform-origin: center right;
@@ -152,12 +148,11 @@
         bottom: 0;
       }
 
-      /* === ДЕЛИТЕЛЬ — увеличен === */
       .ticker {
         position: relative;
         left: calc(var(--size) / -15);
-        width: calc(var(--size) / 8); /* был /11, теперь больше */
-        height: calc(var(--size) / 16); /* был /22, теперь выше */
+        width: calc(var(--size) / 8);
+        height: calc(var(--size) / 16);
         background: var(--lg);
         z-index: 100;
         clip-path: polygon(20% 0, 100% 50%, 20% 100%, 0% 50%);
@@ -206,7 +201,6 @@
         }
       }
 
-      /* === ТЕНЬ ТЕКСТА КАК НА ПРИМЕРЕ "Скидка 50%" — чёрная объёмная === */
       .text {
         font-family: "Russo One", sans-serif;
         font-weight: bold;
@@ -246,10 +240,9 @@
         cursor: not-allowed;
       }
 
-      /* === АДАПТИВ === */
       @media (max-width: 768px) {
         .deal-wheel-two {
-          --size: clamp(150px, 75vmin, 250px);
+          --size: clamp(150px, 75vmin, 150px);
           --lg-hs: 0 3%;
           --lg-stop: 50%;
           --lg: linear-gradient(
@@ -271,7 +264,7 @@
         }
         .ticker {
           left: calc(var(--size) / -13);
-          width: calc(var(--size) / 7); /* ещё больше на мобильных */
+          width: calc(var(--size) / 7);
           height: calc(var(--size) / 14);
         }
         .wheel-section {
@@ -336,7 +329,7 @@
             </label>
           </div>
 
-          <!-- Колесо — центрировано -->
+          <!-- Основное интерактивное колесо -->
           <div class="wheel-section" id="wheelSection" style="display: none">
             <div class="deal-wheel">
               <ul class="spinner"></ul>
@@ -372,7 +365,8 @@
               </ol>
             </div>
 
-            <div class="wheel-section-two" id="wheelSection">
+            <!-- Декоративное второе колесо (пример призов) -->
+            <div class="wheel-section-two" id="wheelSectionTwo">
               <div class="deal-wheel-two">
                 <ul
                   class="spinner"
@@ -422,6 +416,7 @@
       const checkBtn = document.getElementById("checkBtn");
       const subscriptionCard = document.getElementById("subscriptionCard");
       const wheelSection = document.getElementById("wheelSection");
+      const wheelSectionTwo = document.getElementById("wheelSectionTwo"); // второе колесо
 
       confirmCheckbox.disabled = true;
       checkBtn.disabled = true;
@@ -438,6 +433,10 @@
         if (confirmCheckbox.checked) {
           subscriptionCard.style.display = "none";
           wheelSection.style.display = "flex";
+
+          // === ТВОЯ ПРОСЬБА: скрываем декоративное колесо, когда появляется основное ===
+          wheelSectionTwo.style.display = "none";
+
           setupWheel();
         }
       });
@@ -519,7 +518,6 @@
         createPrizeNodes();
         prizeNodes = wheel.querySelectorAll(".prize");
 
-        // === АНТИ-АБУЗ: проверка localStorage ===
         if (localStorage.getItem("hasSpun") === "true") {
           trigger.disabled = true;
           trigger.textContent = "Вы уже крутили колесо";
@@ -558,7 +556,6 @@
       };
 
       trigger.addEventListener("click", () => {
-        // Проверка — уже крутили?
         if (localStorage.getItem("hasSpun") === "true") return;
 
         trigger.disabled = true;
@@ -577,7 +574,6 @@
 
         runTickerAnimation();
 
-        // Сохраняем спин и приз
         localStorage.setItem("hasSpun", "true");
         localStorage.setItem("lastPrize", winningPrize);
       });
@@ -586,14 +582,12 @@
         cancelAnimationFrame(tickerAnim);
         rotation %= 360;
 
-        // Подсвечиваем именно выпавший приз
         prizeNodes.forEach((p) => p.classList.remove(selectedClass));
         prizeNodes[winningPrizeIndex].classList.add(selectedClass);
 
         wheel.classList.remove(spinClass);
         spinner.style.setProperty("--rotate", rotation);
 
-        // Финальная блокировка
         trigger.disabled = true;
         trigger.textContent = "Вы уже крутили колесо";
       });
