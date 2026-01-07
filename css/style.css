@@ -133,7 +133,7 @@ button {
 }
 
 .roulette__container,
-.prize__container {
+.give__container {
   max-width: 1100px;
   margin: 0 auto;
   padding: 24px;
@@ -295,11 +295,11 @@ button {
 /* =========================
    Prize section
 ========================= */
-.prize {
+.give {
   padding-bottom: 20px;
 }
 
-.prize__card {
+.give__card {
   border-radius: 20px;
   padding: 40px;
 
@@ -316,31 +316,31 @@ button {
     inset 0 0 0 1px rgba(255, 255, 255, 0.25);
 }
 
-.prize__title {
+.give__title {
   font-family: montserrat, sans-serif;
   font-weight: bold;
   font-size: 30px;
   margin-bottom: 24px;
 }
 
-.prize__steps {
+.give__steps {
   list-style: decimal;
   padding-left: 20px;
   font-size: 16px;
   line-height: 1.6;
 }
 
-.prize__step {
+.give__step {
   margin-bottom: 12px;
 }
 
-.prize__link {
+.give__link {
   color: #47ff47;
   font-weight: 600;
   text-decoration: underline;
 }
 
-.prize__link:hover {
+.give__link:hover {
   text-decoration: underline;
 }
 
@@ -349,7 +349,7 @@ button {
 ========================= */
 @media (max-width: 768px) {
   .roulette__card,
-  .prize__card {
+  .give__card {
     padding: 24px;
   }
 
@@ -367,11 +367,11 @@ button {
     margin-bottom: 16px;
   }
 
-  .prize__title {
+  .give__title {
     font-size: 26px;
   }
 
-  .prize__step {
+  .give__step {
     font-size: 14px;
   }
 }
@@ -380,102 +380,4 @@ button {
   body {
     animation: none;
   }
-}
-
-/* Скрытие формы подписки */
-.roulette-subscription {
-  transition: opacity 0.5s ease;
-}
-
-.roulette-subscription.hidden {
-  opacity: 0;
-  height: 0;
-  overflow: hidden;
-  margin: 0;
-  padding: 0;
-}
-
-/* Контейнер для колеса — появится после проверки */
-.roulette-wheel-container {
-  opacity: 0;
-  transition: opacity 0.8s ease;
-  margin-top: 40px;
-}
-
-.roulette-wheel-container.visible {
-  opacity: 1;
-}
-
-/* Само колесо */
-.roulette-wheel-wrapper {
-  position: relative;
-  margin: 0 auto 50px;
-  width: 450px;
-  height: 450px;
-}
-
-.roulette-canvas {
-  border-radius: 50%;
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.9);
-}
-
-.roulette-pointer {
-  position: absolute;
-  top: -20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 0;
-  border-left: 35px solid transparent;
-  border-right: 35px solid transparent;
-  border-top: 70px solid #ffd700;
-  z-index: 30;
-  filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.8));
-}
-
-.roulette-center-circle {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 90px;
-  height: 90px;
-  background: #1e293b;
-  border: 8px solid #000;
-  border-radius: 50%;
-  z-index: 10;
-}
-
-.roulette-spin-btn {
-  padding: 20px 80px;
-  font-size: 28px;
-  background: linear-gradient(to bottom, #a0ffa1, #6dff80);
-  border: none;
-  border-radius: 60px;
-  color: #0f172a;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-
-  margin: 0 auto;
-  display: block;
-}
-
-.roulette-spin-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.roulette-already-msg {
-  margin-top: 40px;
-  font-size: 20px;
-  color: #cbd5e1;
-  line-height: 1.5;
-}
-
-.roulette-already-msg small {
-  font-size: 16px;
-  display: block;
-  margin-top: 10px;
-  color: #94a3b8;
 }

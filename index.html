@@ -8,6 +8,210 @@
     <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/style.css" />
     <link rel="icon" href="images/logo.jpg" type="image/jpeg" />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      .wheel-section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px 20px;
+      }
+
+      .deal-wheel {
+        --size: clamp(250px, 75vmin, 500px);
+        --lg-hs: 0 3%;
+        --lg-stop: 50%;
+        --lg: linear-gradient(
+          hsl(var(--lg-hs) 0%) 0 var(--lg-stop),
+          hsl(var(--lg-hs) 20%) var(--lg-stop) 100%
+        );
+        position: relative;
+        display: grid;
+        grid-gap: calc(var(--size) / 20);
+        align-items: center;
+        grid-template-areas: "spinner" "trigger";
+        font-size: calc(var(--size) / 21);
+        margin: 0 auto;
+      }
+
+      .deal-wheel > * {
+        grid-area: spinner;
+      }
+      .deal-wheel .btn-spin {
+        grid-area: trigger;
+        justify-self: center;
+      }
+
+      .spinner {
+        position: relative;
+        display: grid;
+        align-items: center;
+        grid-template-areas: "spinner";
+        width: var(--size);
+        height: var(--size);
+        border-radius: 50%;
+        transform: rotate(calc(var(--rotate, 25) * 1deg));
+
+        /* === ЧЁРНАЯ ОБВОДКА — уменьшена до 5px === */
+        border: 5px solid #000;
+        box-shadow: 0 0 18px rgba(0, 0, 0, 0.9),
+          inset 0 0 12px rgba(0, 0, 0, 0.7);
+
+        margin-bottom: 20px;
+      }
+
+      .spinner::before {
+        /* === ЦЕНТРАЛЬНЫЙ КРУГ — уменьшен === */
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: calc(var(--size) / 5.5); /* был /4, теперь меньше */
+        height: calc(var(--size) / 5.5);
+        background: radial-gradient(circle, #ff8c00, #ff6b00, #e65100);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 20;
+        box-shadow: 0 0 25px rgba(255, 140, 0, 0.7),
+          inset 0 0 15px rgba(0, 0, 0, 0.5);
+        pointer-events: none;
+      }
+
+      .spinner * {
+        grid-area: spinner;
+      }
+
+      .prize {
+        position: relative;
+        display: flex;
+        align-items: center;
+        /* === ТЕКСТ БЛИЖЕ К ЦЕНТРУ (отодвинут от края) === */
+        padding: 0 calc(var(--size) / 6) 0 calc(var(--size) / 10); /* был /20, теперь /10 */
+        width: 50%;
+        height: 50%;
+        transform-origin: center right;
+        transform: rotate(var(--rotate));
+        user-select: none;
+        z-index: 10;
+      }
+
+      .prize::before {
+        top: 0;
+      }
+      .prize::after {
+        bottom: 0;
+      }
+
+      /* === ДЕЛИТЕЛЬ — увеличен === */
+      .ticker {
+        position: relative;
+        left: calc(var(--size) / -15);
+        width: calc(var(--size) / 8); /* был /11, теперь больше */
+        height: calc(var(--size) / 16); /* был /22, теперь выше */
+        background: var(--lg);
+        z-index: 100;
+        clip-path: polygon(20% 0, 100% 50%, 20% 100%, 0% 50%);
+        transform-origin: center left;
+      }
+
+      .btn-spin {
+        color: white;
+        background: rgba(0, 0, 0, 0.43);
+        border: none;
+        font-size: inherit;
+        padding: 0.9rem 2rem 1rem;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        font-weight: 600;
+
+        font-family: "Russo One", sans-serif;
+
+        transition: all 0.3s ease;
+      }
+
+      .btn-spin:hover {
+        transform: scale(1.05);
+      }
+      .btn-spin:disabled {
+        cursor: progress;
+        opacity: 0.25;
+      }
+
+      .is-spinning .spinner {
+        transition: transform 8s cubic-bezier(0.1, -0.01, 0, 1);
+      }
+      .is-spinning .ticker {
+        animation: tick 700ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      }
+
+      @keyframes tick {
+        0% {
+          transform: rotate(0deg);
+        }
+        40% {
+          transform: rotate(-8deg);
+        }
+        100% {
+          transform: rotate(0deg);
+        }
+      }
+
+      /* === ТЕНЬ ТЕКСТА КАК НА ПРИМЕРЕ "Скидка 50%" — чёрная объёмная === */
+      .text {
+        font-family: "Russo One", sans-serif;
+        font-weight: bold;
+        color: #ffffff;
+        text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000,
+          -1px 1px 0 #000, 3px 3px 8px rgba(0, 0, 0, 0.8);
+      }
+
+      .prize.selected .text {
+        color: #ffefb3;
+        animation: selected 800ms ease;
+      }
+
+      @keyframes selected {
+        25% {
+          transform: scale(1.25);
+          text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.9);
+        }
+        40% {
+          transform: scale(0.92);
+        }
+        60% {
+          transform: scale(1.02);
+        }
+        75% {
+          transform: scale(0.98);
+        }
+        85% {
+          transform: scale(1);
+        }
+      }
+
+      .roulette__button--secondary:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      /* === АДАПТИВ === */
+      @media (max-width: 768px) {
+        .deal-wheel {
+          --size: clamp(240px, 72vmin, 420px);
+        }
+        .ticker {
+          left: calc(var(--size) / -13);
+          width: calc(var(--size) / 7); /* ещё больше на мобильных */
+          height: calc(var(--size) / 14);
+        }
+        .wheel-section {
+          padding: 40px 15px;
+        }
+      }
+    </style>
   </head>
   <body>
     <header class="header">
@@ -22,7 +226,8 @@
     <main class="page">
       <section class="roulette">
         <div class="roulette__container">
-          <div class="roulette__card">
+          <!-- Блок подписки -->
+          <div class="roulette__card" id="subscriptionCard">
             <h1 class="roulette__title">
               <span class="roulette__icon">🎁</span>
               Рулетка удачи
@@ -38,6 +243,7 @@
                 class="roulette__button roulette__button--primary"
                 target="_blank"
                 rel="noopener noreferrer"
+                id="subscribeBtn"
               >
                 Подписаться в Telegram
               </a>
@@ -45,31 +251,44 @@
               <button
                 type="button"
                 class="roulette__button roulette__button--secondary"
+                id="checkBtn"
+                disabled
               >
                 Проверить подписку
               </button>
             </div>
 
             <label class="roulette__checkbox">
-              <input type="checkbox" class="roulette__checkbox-input" />
+              <input
+                type="checkbox"
+                class="roulette__checkbox-input"
+                id="confirmCheckbox"
+                disabled
+              />
               <span class="roulette__checkbox-text"> Я подписался(лась) </span>
             </label>
+          </div>
+
+          <!-- Колесо — центрировано -->
+          <div class="wheel-section" id="wheelSection" style="display: none">
+            <div class="deal-wheel">
+              <ul class="spinner"></ul>
+              <div class="ticker"></div>
+              <button class="btn-spin">Испытай удачу</button>
+            </div>
           </div>
         </div>
       </section>
 
-      <section class="prize">
-        <div class="prize__container">
-          <div class="prize__card">
-            <h2 class="prize__title">Как получить приз</h2>
-
-            <ol class="prize__steps">
-              <li class="prize__step">
-                Подпишись на канал и проверь подписку.
-              </li>
-              <li class="prize__step">Крути колесо.</li>
-              <li class="prize__step">Сделай скриншот результата.</li>
-              <li class="prize__step">
+      <section class="give">
+        <div class="give__container">
+          <div class="give__card">
+            <h2 class="give__title">Как получить приз</h2>
+            <ol class="give__steps">
+              <li class="give__step">Подпишись на канал и проверь подписку.</li>
+              <li class="give__step">Крути колесо.</li>
+              <li class="give__step">Сделай скриншот результата.</li>
+              <li class="give__step">
                 Отправь скрин в TG:
                 <a
                   href="https://t.me/orenda_admin"
@@ -86,6 +305,165 @@
       </section>
     </main>
 
-    <script src="js/main.js"></script>
+    <script>
+      // Логика подписки
+      const subscribeBtn = document.getElementById("subscribeBtn");
+      const confirmCheckbox = document.getElementById("confirmCheckbox");
+      const checkBtn = document.getElementById("checkBtn");
+      const subscriptionCard = document.getElementById("subscriptionCard");
+      const wheelSection = document.getElementById("wheelSection");
+
+      confirmCheckbox.disabled = true;
+      checkBtn.disabled = true;
+
+      subscribeBtn.addEventListener("click", () => {
+        confirmCheckbox.disabled = false;
+      });
+
+      confirmCheckbox.addEventListener("change", () => {
+        checkBtn.disabled = !confirmCheckbox.checked;
+      });
+
+      checkBtn.addEventListener("click", () => {
+        if (confirmCheckbox.checked) {
+          subscriptionCard.style.display = "none";
+          wheelSection.style.display = "flex";
+          setupWheel();
+        }
+      });
+
+      // === Призы с реальными шансами ===
+      const prizes = [
+        { text: "X2", probability: 59.99 },
+        { text: "X3", probability: 25 },
+        { text: "X5", probability: 10 },
+        { text: "X10", probability: 4 },
+        { text: "50$", probability: 1 },
+        { text: "100$", probability: 0.01 },
+      ];
+
+      // Функция выбора приза по вероятности
+      const getWeightedPrize = () => {
+        let random = Math.random() * 100;
+        let cumulative = 0;
+        for (let prize of prizes) {
+          cumulative += prize.probability;
+          if (random <= cumulative) {
+            return prize.text;
+          }
+        }
+        return prizes[prizes.length - 1].text; // на всякий случай
+      };
+
+      const wheel = document.querySelector(".deal-wheel");
+      const spinner = wheel.querySelector(".spinner");
+      const trigger = wheel.querySelector(".btn-spin");
+      const ticker = wheel.querySelector(".ticker");
+
+      const prizeSlice = 360 / prizes.length;
+      const prizeOffset = Math.floor(180 / prizes.length);
+      const spinClass = "is-spinning";
+      const selectedClass = "selected";
+
+      let rotation = 0;
+      let prizeNodes;
+
+      const createPrizeNodes = () => {
+        prizes.forEach(({ text }, i) => {
+          const rotation = prizeSlice * i * -1 - prizeOffset;
+          spinner.insertAdjacentHTML(
+            "beforeend",
+            `<li class="prize" style="--rotate: ${rotation}deg">
+          <span class="text">${text}</span>
+        </li>`
+          );
+        });
+      };
+
+      const createConicGradient = () => {
+        // Цвета секторов — под твою тему (можно поменять)
+        const colors = [
+          "hsl(197 30% 43%)",
+          "hsl(173 58% 39%)",
+          "hsl(43 74% 66%)",
+          "hsl(27 87% 67%)",
+          "hsl(12 76% 61%)",
+          "hsl(350 60% 52%)",
+        ];
+        spinner.setAttribute(
+          "style",
+          `background: conic-gradient(from -90deg, ${prizes
+            .map(
+              ({}, i) =>
+                `${colors[i % colors.length]} 0 ${
+                  (100 / prizes.length) * (prizes.length - i)
+                }%`
+            )
+            .reverse()
+            .join(", ")});`
+        );
+      };
+
+      const setupWheel = () => {
+        createConicGradient();
+        createPrizeNodes();
+        prizeNodes = wheel.querySelectorAll(".prize");
+
+        // === АНТИ-АБУЗ: проверяем, крутил ли уже ===
+        if (localStorage.getItem("hasSpun") === "true") {
+          trigger.disabled = true;
+          trigger.textContent = "Вы уже крутили колесо";
+          // Подсвечиваем прошлый приз (если был)
+          const lastPrize = localStorage.getItem("lastPrize");
+          if (lastPrize) {
+            const index = prizes.findIndex((p) => p.text === lastPrize);
+            if (index !== -1) prizeNodes[index].classList.add(selectedClass);
+          }
+        }
+      };
+
+      const spinertia = (min, max) =>
+        Math.floor(Math.random() * (max - min + 1)) + min;
+
+      trigger.addEventListener("click", () => {
+        if (localStorage.getItem("hasSpun") === "true") return;
+
+        trigger.disabled = true;
+
+        // Определяем приз по вероятности
+        const winningPrize = getWeightedPrize();
+
+        // Находим индекс приза
+        const prizeIndex = prizes.findIndex((p) => p.text === winningPrize);
+
+        // Вычисляем угол поворота так, чтобы приз оказался под делителем
+        const extraSpins = 5 + Math.floor(Math.random() * 3); // 5-7 полных оборотов
+        rotation = prizeIndex * prizeSlice + prizeOffset + extraSpins * 360;
+
+        prizeNodes.forEach((p) => p.classList.remove(selectedClass));
+        wheel.classList.add(spinClass);
+        spinner.style.setProperty("--rotate", rotation);
+
+        // Сохраняем, что уже крутили
+        localStorage.setItem("hasSpun", "true");
+        localStorage.setItem("lastPrize", winningPrize);
+
+        // Анимация делителя
+        ticker.style.animation = "none";
+        setTimeout(() => (ticker.style.animation = null), 10);
+      });
+
+      spinner.addEventListener("transitionend", () => {
+        rotation %= 360;
+        const selected =
+          Math.floor((360 - rotation + prizeOffset) / prizeSlice) %
+          prizes.length;
+        prizeNodes[selected].classList.add(selectedClass);
+        wheel.classList.remove(spinClass);
+        spinner.style.setProperty("--rotate", rotation);
+        trigger.disabled = true;
+        trigger.textContent = "Вы уже крутили колесо";
+      });
+    </script>
   </body>
 </html>
