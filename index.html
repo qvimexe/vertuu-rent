@@ -332,7 +332,7 @@
         }
       });
 
-      // === Призы с реальными шансами ===
+      // === Призы с шансами ===
       const prizes = [
         { text: "X2", probability: 59.99 },
         { text: "X3", probability: 25 },
@@ -342,17 +342,14 @@
         { text: "100$", probability: 0.01 },
       ];
 
-      // Функция выбора приза по вероятности
       const getWeightedPrize = () => {
         let random = Math.random() * 100;
         let cumulative = 0;
         for (let prize of prizes) {
           cumulative += prize.probability;
-          if (random <= cumulative) {
-            return prize.text;
-          }
+          if (random <= cumulative) return prize.text;
         }
-        return prizes[prizes.length - 1].text; // на всякий случай
+        return prizes[prizes.length - 1].text;
       };
 
       const wheel = document.querySelector(".deal-wheel");
@@ -369,7 +366,8 @@
       let tickerAnim;
       let rotation = 0;
       let currentSlice = 0;
-      let prizeNodes;
+      let prizeNodes = [];
+      let winningPrizeIndex = 0;
 
       const createPrizeNodes = () => {
         prizes.forEach(({ text }, i) => {
@@ -377,8 +375,8 @@
           spinner.insertAdjacentHTML(
             "beforeend",
             `<li class="prize" style="--rotate: ${rotation}deg">
-              <span class="text">${text}</span>
-            </li>`
+          <span class="text">${text}</span>
+        </li>`
           );
         });
       };
@@ -411,13 +409,17 @@
         createPrizeNodes();
         prizeNodes = wheel.querySelectorAll(".prize");
 
+        // === АНТИ-АБУЗ: проверка localStorage ===
         if (localStorage.getItem("hasSpun") === "true") {
           trigger.disabled = true;
           trigger.textContent = "Вы уже крутили колесо";
+
           const lastPrize = localStorage.getItem("lastPrize");
           if (lastPrize) {
             const index = prizes.findIndex((p) => p.text === lastPrize);
-            if (index !== -1) prizeNodes[index].classList.add(selectedClass);
+            if (index !== -1) {
+              prizeNodes[index].classList.add(selectedClass);
+            }
           }
         }
       };
@@ -425,7 +427,6 @@
       const spinertia = (min, max) =>
         Math.floor(Math.random() * (max - min + 1)) + min;
 
-      // === ДЁРГАНИЕ ДЕЛИТЕЛЯ ПРИ ВРАЩЕНИИ (оригинальный прикол) ===
       const runTickerAnimation = () => {
         const values = spinnerStyles.transform
           .split("(")[1]
@@ -446,34 +447,27 @@
         tickerAnim = requestAnimationFrame(runTickerAnimation);
       };
 
-      const selectPrize = () => {
-        // Правильный расчёт индекса приза под делителем (слева)
-        // Делитель смотрит на 180° (слева), учитываем offset
-        const normalizedRotation = (rotation + prizeOffset) % 360;
-        const selectedIndex =
-          Math.floor((360 - normalizedRotation) / prizeSlice) % prizes.length;
-        prizeNodes.forEach((p) => p.classList.remove(selectedClass));
-        prizeNodes[selectedIndex].classList.add(selectedClass);
-      };
-
       trigger.addEventListener("click", () => {
+        // Проверка — уже крутили?
         if (localStorage.getItem("hasSpun") === "true") return;
 
         trigger.disabled = true;
 
         const winningPrize = getWeightedPrize();
-        const prizeIndex = prizes.findIndex((p) => p.text === winningPrize);
+        winningPrizeIndex = prizes.findIndex((p) => p.text === winningPrize);
 
         const extraSpins = 5 + Math.floor(Math.random() * 3);
-        rotation = prizeIndex * prizeSlice + prizeOffset + extraSpins * 360;
+        rotation =
+          winningPrizeIndex * prizeSlice + prizeOffset + extraSpins * 360;
 
         prizeNodes.forEach((p) => p.classList.remove(selectedClass));
         wheel.classList.add(spinClass);
         spinner.style.setProperty("--rotate", rotation);
         ticker.style.animation = "none";
 
-        runTickerAnimation(); // дёргание делителя
+        runTickerAnimation();
 
+        // Сохраняем спин и приз
         localStorage.setItem("hasSpun", "true");
         localStorage.setItem("lastPrize", winningPrize);
       });
@@ -481,42 +475,15 @@
       spinner.addEventListener("transitionend", () => {
         cancelAnimationFrame(tickerAnim);
         rotation %= 360;
-        selectPrize(); // теперь правильно выделяет приз под делителем
-        wheel.classList.remove(spinClass);
-        spinner.style.setProperty("--rotate", rotation);
-        trigger.disabled = true;
-        trigger.textContent = "Вы уже крутили колесо";
-      });
 
-      trigger.addEventListener("click", () => {
-        if (localStorage.getItem("hasSpun") === "true") return;
-
-        trigger.disabled = true;
-
-        const winningPrize = getWeightedPrize();
-        const prizeIndex = prizes.findIndex((p) => p.text === winningPrize);
-
-        const extraSpins = 5 + Math.floor(Math.random() * 3);
-        rotation = prizeIndex * prizeSlice + prizeOffset + extraSpins * 360;
-
+        // Подсвечиваем именно выпавший приз
         prizeNodes.forEach((p) => p.classList.remove(selectedClass));
-        wheel.classList.add(spinClass);
-        spinner.style.setProperty("--rotate", rotation);
-        ticker.style.animation = "none";
+        prizeNodes[winningPrizeIndex].classList.add(selectedClass);
 
-        // Запускаем дёргание делителя
-        runTickerAnimation();
-
-        localStorage.setItem("hasSpun", "true");
-        localStorage.setItem("lastPrize", winningPrize);
-      });
-
-      spinner.addEventListener("transitionend", () => {
-        cancelAnimationFrame(tickerAnim); // останавливаем дёргание
-        rotation %= 360;
-        selectPrize();
         wheel.classList.remove(spinClass);
         spinner.style.setProperty("--rotate", rotation);
+
+        // Финальная блокировка
         trigger.disabled = true;
         trigger.textContent = "Вы уже крутили колесо";
       });

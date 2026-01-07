@@ -229,6 +229,15 @@ button {
   display: inline-flex;
 }
 
+/* === Явно показываем отключённые элементы на всех устройствах, включая iOS === */
+
+.roulette__checkbox-input:disabled {
+  opacity: 0.4 !important;
+  cursor: not-allowed !important;
+  accent-color: #666 !important; /* серый цвет галочки */
+  pointer-events: none;
+}
+
 .roulette__button:hover {
   animation-play-state: paused;
   transform: translateY(-3px) scale(1.02);
