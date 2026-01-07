@@ -45,6 +45,53 @@
         justify-self: center;
       }
 
+      .wheel-section-two {
+        /* display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px 20px; */
+      }
+
+      .deal-wheel-two {
+        --size: clamp(150px, 75vmin, 250px);
+        --lg-hs: 0 3%;
+        --lg-stop: 50%;
+        --lg: linear-gradient(
+          hsl(var(--lg-hs) 0%) 0 var(--lg-stop),
+          hsl(var(--lg-hs) 20%) var(--lg-stop) 100%
+        );
+        position: relative;
+        display: grid;
+        grid-gap: calc(var(--size) / 20);
+        align-items: center;
+        grid-template-areas: "spinner" "trigger";
+        font-size: calc(var(--size) / 21);
+
+        padding-top: 30px;
+      }
+
+      .deal-wheel-two > * {
+        grid-area: spinner;
+      }
+      .deal-wheel-two {
+        grid-area: trigger;
+        justify-self: center;
+      }
+
+      @keyframes slowSpin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .deal-wheel-two .spinner {
+        /* или .spinner, если это основное колесо */
+        animation: slowSpin 40s linear infinite; /* 40s — скорость, меняй на 30s или 60s для медленнее/быстрее */
+      }
+
       .spinner {
         position: relative;
         display: grid;
@@ -201,6 +248,10 @@
 
       /* === АДАПТИВ === */
       @media (max-width: 768px) {
+        .deal-wheel-two {
+          padding-top: 0px;
+        }
+
         .deal-wheel {
           --size: clamp(240px, 72vmin, 420px);
         }
@@ -285,23 +336,66 @@
       <section class="give">
         <div class="give__container">
           <div class="give__card">
-            <h2 class="give__title">Как получить приз</h2>
-            <ol class="give__steps">
-              <li class="give__step">Подпишись на канал и проверь подписку.</li>
-              <li class="give__step">Крути колесо.</li>
-              <li class="give__step">Сделай скриншот результата.</li>
-              <li class="give__step">
-                Отправь скрин в TG:
-                <a
-                  href="https://t.me/orenda_admin"
-                  class="give__link"
-                  target="_blank"
-                  rel="noopener noreferrer"
+            <div class="give__card-content">
+              <h2 class="give__title">Как получить приз</h2>
+              <ol class="give__steps">
+                <li class="give__step">
+                  Подпишись на канал и проверь подписку.
+                </li>
+                <li class="give__step">Крути колесо.</li>
+                <li class="give__step">Сделай скриншот результата.</li>
+                <li class="give__step">
+                  Отправь скрин в TG:
+                  <a
+                    href="https://t.me/orenda_admin"
+                    class="give__link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    @orenda_admin
+                  </a>
+                </li>
+              </ol>
+            </div>
+
+            <div class="wheel-section-two" id="wheelSection">
+              <div class="deal-wheel-two">
+                <ul
+                  class="spinner"
+                  style="
+                    background: conic-gradient(
+                      from -90deg,
+                      hsl(350 60% 52%) 0 16.666666666666668%,
+                      hsl(12 76% 61%) 0 33.333333333333336%,
+                      hsl(27 87% 67%) 0 50%,
+                      hsl(43 74% 66%) 0 66.66666666666667%,
+                      hsl(173 58% 39%) 0 83.33333333333334%,
+                      hsl(197 30% 43%) 0 100%
+                    );
+                  "
                 >
-                  @orenda_admin
-                </a>
-              </li>
-            </ol>
+                  <li class="prize" style="--rotate: -30deg">
+                    <span class="text">X2</span>
+                  </li>
+                  <li class="prize" style="--rotate: -90deg">
+                    <span class="text">X3</span>
+                  </li>
+                  <li class="prize" style="--rotate: -150deg">
+                    <span class="text">X5</span>
+                  </li>
+                  <li class="prize" style="--rotate: -210deg">
+                    <span class="text">X10</span>
+                  </li>
+                  <li class="prize" style="--rotate: -270deg">
+                    <span class="text">50$</span>
+                  </li>
+                  <li class="prize" style="--rotate: -330deg">
+                    <span class="text">100$</span>
+                  </li>
+                </ul>
+                <div class="ticker"></div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
