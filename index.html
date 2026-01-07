@@ -53,7 +53,7 @@
       }
 
       .deal-wheel-two {
-        --size: clamp(150px, 75vmin, 250px);
+        --size: clamp(150px, 75vmin, 350px);
         --lg-hs: 0 3%;
         --lg-stop: 50%;
         --lg: linear-gradient(
@@ -249,6 +249,20 @@
       /* === АДАПТИВ === */
       @media (max-width: 768px) {
         .deal-wheel-two {
+          --size: clamp(150px, 75vmin, 250px);
+          --lg-hs: 0 3%;
+          --lg-stop: 50%;
+          --lg: linear-gradient(
+            hsl(var(--lg-hs) 0%) 0 var(--lg-stop),
+            hsl(var(--lg-hs) 20%) var(--lg-stop) 100%
+          );
+          position: relative;
+          display: grid;
+          grid-gap: calc(var(--size) / 20);
+          align-items: center;
+          grid-template-areas: "spinner" "trigger";
+          font-size: calc(var(--size) / 21);
+
           padding-top: 0px;
         }
 
