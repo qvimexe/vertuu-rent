@@ -368,6 +368,9 @@ button {
   }
 
   .roulette__title {
+    display: flex;
+    align-items: center;
+    gap: 5px;
     font-size: 25px;
   }
 
