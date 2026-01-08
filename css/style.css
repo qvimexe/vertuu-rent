@@ -370,6 +370,10 @@ button {
     padding: 24px;
   }
 
+  .give__container {
+    padding: 0 10px 70px 10px;
+  }
+
   .roulette__button {
     padding: 12px 20px;
     font-size: 14px;
